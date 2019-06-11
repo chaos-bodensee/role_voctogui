@@ -19,33 +19,29 @@
         mode=0644 owner=root group=root
   when: alternative_gui_for_voctogui | bool
 
-  # voctogui configuration
-  - name: create voctogui config
-    template: src=voctomix-config/voctogui-config.ini.j2
-              dest=/opt/voctomix/voctogui-config.ini
-              mode=0644 owner=root group=root
-
-
 
   # voctogui service
-  - name: create voctogui systemd-unit
-    template: src=systemd-units/voctomix-voctogui.service.j2
-              dest=/etc/systemd/system/voctomix-voctogui.service
-              mode=0644 owner=root group=root
+- name: create voctogui systemd-unit
+  become: true
+  template:
+    src: systemd-units/voctomix-voctogui.service.j2
+    dest: /etc/systemd/system/voctomix-voctogui.service
+    mode: 0644
+    owner: root
+    group: root
 
-  - name: reload systemd daemon
-    command: systemctl daemon-reload
-    changed_when: false
+- name: enable & start voctogui service when in voctomix-mode
+  become: true
+  systemd:
+    name: voctomix-voctogui
+    daemon_reload: yes
+    enabled: yes
+    state: started
+  when: encodermode is defined and encodermode == 'hd-voctomix'
 
-  - name: enable & start voctogui service when in voctomix-mode
-    service: name=voctomix-voctogui
-             enabled=yes
-             state=started
-    when: encodermode is defined and encodermode == 'hd-voctomix'
-
-  - name: disable & stop voctogui service when not in voctomix-mode
-    service: name=voctomix-voctogui
-             enabled=no
-             state=stopped
-    when: encodermode is not defined or encodermode != 'hd-voctomix'
+- name: disable & stop voctogui service when not in voctomix-mode
+  sytemd: name=voctomix-voctogui
+           enabled=no
+           state=stopped
+  when: encodermode is not defined or encodermode != 'hd-voctomix'
 

@@ -3,5 +3,13 @@
 # currently not modifyable via ansible in voctogui config!
 alternative_gui_for_voctogui: false
 
+# is voctogui on the same host than voctocore?
+voctogui_on_same_host_than_core: true
+
+# set GTK Variables
+gtk_enviroment_variables: false
+
 # version check for this role?
 submodules_versioncheck: true
+
+encodermode: 'hd-voctomix'
