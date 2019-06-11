@@ -1,0 +1,7 @@
+---
+# smaler voctomix gui for more sources
+# currently not modifyable via ansible in voctogui config!
+alternative_gui_for_voctogui: false
+
+# version check for this role?
+submodules_versioncheck: true
