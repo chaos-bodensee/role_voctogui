@@ -1,4 +1,8 @@
 ---
+# user and group for X Display
+voctomix_user: toolbox
+voctomix_group: toolbox
+
 # smaler voctomix gui for more sources
 # currently not modifyable via ansible in voctogui config!
 alternative_gui_for_voctogui: false
