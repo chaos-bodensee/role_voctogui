@@ -33,14 +33,15 @@
 - name: enable & start voctogui service when in voctomix-mode
   become: true
   systemd:
-    name: voctomix-voctogui
+    name: voctomix-voctogui.service
     daemon_reload: yes
     enabled: yes
     state: started
   when: encodermode is defined and encodermode == 'hd-voctomix'
 
 - name: disable & stop voctogui service when not in voctomix-mode
-  sytemd: name=voctomix-voctogui
+  become: true
+  systemd: name=voctomix-voctogui
            enabled=no
            state=stopped
   when: encodermode is not defined or encodermode != 'hd-voctomix'
