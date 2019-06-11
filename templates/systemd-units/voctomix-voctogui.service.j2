@@ -1,11 +1,11 @@
 [Unit]
 Description = voctomix gui
-After={%
-  if voctogui_on_same_host_than_core | bool 
-    %}voctocore.service{%
-  else 
-    %}network.target{%
-  endif %}
+After={%-  if voctogui_on_same_host_than_core | bool  %}
+voctocore.service
+{%- else %}
+network.target
+{% endif %}
+
 
 [Service]
 Type = simple
@@ -23,6 +23,7 @@ Environment="GDK_SCALE=2"
 {%- endif %}
 
 [Install]
+
 {%- if voctogui_on_same_host_than_core | bool %}
 WantedBy = voctocore.service
 {%- else %}
